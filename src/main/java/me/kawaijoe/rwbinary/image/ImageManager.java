@@ -12,12 +12,15 @@ public class ImageManager {
     private volatile static ImageManager uniqueInstance;
     private volatile Map<String, CardPack> packs = new HashMap<>();
 
-    private ImageManager() { }
+    private ImageManager(String path) {
+        ImageReader imageReader = new ImageReader(path);
+        packs = imageReader.getPacks();
+    }
 
-    public static ImageManager getUniqueInstance() {
+    public static ImageManager getUniqueInstance(String path) {
         synchronized(ImageManager.class) {
             if (uniqueInstance == null)
-                uniqueInstance = new ImageManager();
+                uniqueInstance = new ImageManager(path);
         }
         return uniqueInstance;
     }

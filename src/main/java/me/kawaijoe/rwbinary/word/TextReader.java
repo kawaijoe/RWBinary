@@ -45,9 +45,7 @@ class TextReader {
 
     private void saveToArrayList(String word) {
         fixArrayLength(word.length());
-        System.out.println(word);
         words.get(word.length() - 1).add(word);
-        System.out.println(words.size());
     }
 
     private void fixArrayLength(int length) {

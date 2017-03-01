@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import me.kawaijoe.rwbinary.image.ImageManager;
 import me.kawaijoe.rwbinary.word.WordManager;
 
 public class Main extends Application {
@@ -24,6 +25,7 @@ public class Main extends Application {
 
     private void bootstrapper() {
         WordManager.getUniqueInstance("words.txt");
+        ImageManager.getUniqueInstance("image/config/modern.properties");
     }
 
     public static void main(String[] args) {

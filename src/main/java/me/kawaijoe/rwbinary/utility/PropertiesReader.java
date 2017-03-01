@@ -14,20 +14,24 @@ public class PropertiesReader {
         this.filePath = filePath;
     }
 
-    private String getData(String key) throws KeyInvalidException{
+    public String getData(String key) throws KeyInvalidException{
         try {
             File file = new File(filePath);
             FileInputStream fileInput = new FileInputStream(file);
             Properties prop = new Properties();
             prop.load(fileInput);
             fileInput.close();
+            String text = prop.getProperty(key);
 
-            return(prop.getProperty(key));
+            if(text == null)
+                throw new KeyInvalidException("Cannot find paring value from key");
+
+            return(text);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        throw new KeyInvalidException("Can't find pairing value from key");
+        throw new KeyInvalidException("An unknown error has occurred");
     }
 }
