@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.kawaijoe.rwbinary.controller.StartScreenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.kawaijoe.rwbinary.controller.StartScreenController">
    <top>
       <VBox alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,38 +25,14 @@
    <center>
       <GridPane alignment="CENTER" hgap="10.0" vgap="15.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="groupNumber" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font size="24.0" />
-               </font></TextField>
-            <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <font>
-                  <Font size="24.0" />
-               </font></PasswordField>
-            <Label text="Group Number" GridPane.rowIndex="1">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-            <Label text="Password" GridPane.rowIndex="2">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onContinueOffline" text="Continue Offline">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#onPlay" text="Play!">
                      <font>
-                        <Font size="18.0" />
-                     </font></Button>
-                  <Button defaultButton="true" mnemonicParsing="false" onAction="#onLogin" text="Login">
-                     <font>
-                        <Font size="18.0" />
+                        <Font size="48.0" />
                      </font></Button>
                </children>
             </HBox>
-            <Label text="Incorrect Credentials" textFill="RED" underline="true" GridPane.columnIndex="1">
-               <font>
-                  <Font size="18.0" />
-               </font></Label>
          </children>
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" />

@@ -18,10 +18,10 @@ class TextReader {
 
     TextReader(String relativePath) {
         this.path = Utility.relativeToResources(relativePath);
-        words = readFile();
+        readFile();
     }
 
-    private List<List<String>> readFile() {
+    private void readFile() {
         String line;
 
         try {
@@ -39,8 +39,6 @@ class TextReader {
         } catch(IOException ex) {
             System.out.println("Error reading file '" + path + "'");
         }
-
-        return null;
     }
 
     private void saveToArrayList(String word) {

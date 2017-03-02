@@ -25,31 +25,16 @@ public class StartScreenController {
     }
 
     @FXML
-    private void onContinueOffline(ActionEvent event) throws IOException {
-        /*
-        Parent gameScreenParent = FXMLLoader.load(getClass().getResource("/fxml/gamescreen.fxml"));
-        Scene gameScreenScene = new Scene(gameScreenParent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(gameScreenScene);
-        */
+    private void onPlay(ActionEvent event) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/gamescreen.fxml"));
 
         Parent root = fxmlLoader.load();
         GameScreenController controller = fxmlLoader.getController();
-        controller.setHasLogin(false);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
-    }
-
-    @FXML
-    private void onLogin() {
-
-    }
-
-    private boolean isCredentialsValid() {
-        return false;
     }
 }

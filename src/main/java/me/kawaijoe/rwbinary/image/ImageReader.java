@@ -1,103 +1,49 @@
 package me.kawaijoe.rwbinary.image;
 
 import javafx.scene.image.Image;
-import me.kawaijoe.rwbinary.utility.KeyInvalidException;
-import me.kawaijoe.rwbinary.utility.PropertiesReader;
 import me.kawaijoe.rwbinary.utility.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 class ImageReader {
 
-    private volatile Map<String, CardPack> packs = new HashMap<>();
+    private final CardPack PACK;
+    private final double MULTIPLIER = 50;
 
-    ImageReader(String relativePathToImageProperties) {
-        generatePacks(relativePathToImageProperties);
-    }
+    ImageReader(String pathToImage, String cardBackPath, List<String> filesToIgnore) {
 
-    private void generatePacks(String relativePathToImageProperties) {
-        System.out.println("generating packs");
-        PropertiesReader propertiesReaderImage = new PropertiesReader(Utility.relativeToResources(relativePathToImageProperties));
-        List<String> packDir = getRecursiveStrings(propertiesReaderImage, "cardPack");
+        if(!filesToIgnore.contains(cardBackPath))
+            filesToIgnore.add(cardBackPath);
 
-        packDir.add("image/config/modern.properties/");
-        for(String dir : packDir) {
-            packs.put(dir, createCardPack(dir));
-        }
-    }
+        Image cardBack = new Image(pathToImage + cardBackPath, calWidth(), calHeight(), true,
+                true, true);
+        List<Image> cards = new ArrayList<>();
 
-    private CardPack createCardPack(String imageConfigDirectory) {
-        System.out.println("Creating card pack");
-        PropertiesReader propertiesReaderTheme = new PropertiesReader(Utility.relativeToResources(imageConfigDirectory));
-        String imageDirectory = null;
-        try {
-            imageDirectory = propertiesReaderTheme.getData("path");
-        } catch (KeyInvalidException e) {
-            e.printStackTrace();
-        }
-        return new CardPack(getCardBack(imageDirectory, propertiesReaderTheme),
-                getCards(imageDirectory, propertiesReaderTheme));
-    }
-
-    private List<Image> getCards(String imageDirectory, PropertiesReader propertiesReaderTheme) {
-        System.out.println("getcards");
-        List<Image> list = new ArrayList<>();
-        List<String> ignoredFiles = new ArrayList<>();
-
-        try {
-            ignoredFiles.add(propertiesReaderTheme.getData("cardBack"));
-        } catch (KeyInvalidException e) {
-            e.printStackTrace();
-        }
-        ignoredFiles.addAll(getRecursiveStrings(propertiesReaderTheme, "ignore"));
-
-        File dir = new File(imageDirectory);
+        File dir = new File(Utility.relativeToResources(pathToImage));
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                if(!ignoredFiles.contains(child.getName()))
-                    list.add(new Image(imageDirectory + child.getName(), true));
+                if(!filesToIgnore.contains(child.getName())) {
+                    cards.add(new Image(pathToImage + child.getName(), calWidth(), calHeight(), true,
+                            true, true));
+                }
             }
         }
 
-        return list;
+        PACK = new CardPack(cardBack, cards);
     }
 
-    private Image getCardBack(String imageDirectory, PropertiesReader propertiesReaderTheme) {
-        System.out.println("getcardback!");
-        String name = null;
-        try {
-            name = propertiesReaderTheme.getData("cardBack");
-        } catch (KeyInvalidException e) {
-            e.printStackTrace();
-        }
-
-        return new Image(imageDirectory + name, true);
+    CardPack getPACK() {
+        return PACK;
     }
 
-    private List<String> getRecursiveStrings(PropertiesReader propertiesReader, String prefix) {
-        System.out.println("recursive string start");
-        List<String> list = new ArrayList<>();
-        int count = 1;
-
-        while(true) {
-            System.out.println(prefix + String.valueOf(count));
-            try {
-                list.add(propertiesReader.getData(prefix + String.valueOf(count)));
-            } catch (KeyInvalidException e) {
-                break;
-            }
-            count++;
-        }
-        System.out.println("recursive string end");
-        return list;
+    private double calWidth() {
+        return 2.5 * MULTIPLIER;
     }
 
-    public Map<String, CardPack> getPacks() {
-        return packs;
+    private double calHeight() {
+        return 3.5 * MULTIPLIER;
     }
 }
