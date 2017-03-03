@@ -1,6 +1,5 @@
 package me.kawaijoe.rwbinary.controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,20 +12,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import me.kawaijoe.rwbinary.controller.helper.StopWatchThread;
 import me.kawaijoe.rwbinary.image.ImageManager;
 import me.kawaijoe.rwbinary.utility.Utility;
 import me.kawaijoe.rwbinary.word.WordManager;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class GameScreenController {
 
@@ -65,16 +62,14 @@ public class GameScreenController {
     @FXML
     private void onSubmit(ActionEvent event) throws IOException {
         if(answerField.getText().trim().equals(answer)) {
-            noCorrect++;
-            if(questionLength.size() > currentQuestion) {
+            if(questionLength.size() > noCorrect) {
+                noCorrect++;
                 getNewQuestion();
-                answerField.setText("");
             } else {
                 gameOver(event);
             }
-        } else {
-            getNewQuestion();
         }
+        answerField.setText("");
     }
 
     private void gameOver(ActionEvent event) throws IOException {
@@ -84,14 +79,8 @@ public class GameScreenController {
         stopWatchThread.stop();
 
         String correctQuestion = noCorrect + " / " + questionLength.size();
-        String timeTaken = String.format("%d : %d : %d",
-                TimeUnit.MILLISECONDS.toMinutes(millis),
-                TimeUnit.MILLISECONDS.toSeconds(millis) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)),
-                TimeUnit.MILLISECONDS.toMillis(millis) -
-                        TimeUnit.MILLISECONDS.toMillis(TimeUnit.MINUTES.toSeconds(millis))
 
-        );
+        String timeTaken = DurationFormatUtils.formatDuration(millis, "mm : ss : SSS");
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/endgamescreen.fxml"));
 
